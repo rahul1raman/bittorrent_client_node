@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node index.mjs",
-    "start": "npm run build && node index.js",
+    "start": "npm run build-babel && node index.js",
     "clean": "rm -rf build && mkdir dist",
     "build-babel": "babel -d ./dist ./index.js -s",
     "build": "npm run clean && npm run build-babel"
@@ -17,6 +17,7 @@
     "@babel/cli": "^7.22.15",
     "@babel/core": "^7.22.17",
     "bencode": "^4.0.0",
+    "bignum": "^0.13.1",
     "crypto": "^1.0.1"
   },
   "devDependencies": {

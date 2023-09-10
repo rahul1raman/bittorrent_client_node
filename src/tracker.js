@@ -11,11 +11,19 @@ import {genId} from './utils.js';
 
 export const getPeers = async (torrent, callback) => {
   const socket = createSocket('udp4');
-  const url = torrent.announce;
-  console.log('\n ====> Getting peers for: ', url);
+  const urls = torrent['announce-list'];
+  console.log('\n ====> Getting peers for: ', urls);
 
+  const announceUrl = 'udp://explodie.org:6969';
   // 1. send connect request
-  await udpSend(socket, buildConnBuffer(), url);
+  urls.forEach(async element => {
+    const url = element[0];
+    if (url.startsWith('udp://')) {
+      await udpSend(socket, buildConnBuffer(), url);
+    } else {
+      console.log('Skipping non udp URL: ', url);
+    }
+  });
 
   socket.on('message', async response => {
     if (respType(response) === 'connect') {
@@ -23,10 +31,11 @@ export const getPeers = async (torrent, callback) => {
       const connResp = parseConnResponse(response);
       // 3. send announce request
       const announceReq = buildAnnounceReq(connResp.connectionId, torrent);
-      await udpSend(socket, announceReq, url);
+      await udpSend(socket, announceReq, announceUrl);
     } else if (respType(response) === 'announce') {
       // 4. parse announce response
       const announceResp = parseAnnounceResp(response);
+      console.log("===> Announce response ", announceResp);
       // 5. pass peers to callback
       callback(announceResp.peers);
     }
@@ -34,18 +43,19 @@ export const getPeers = async (torrent, callback) => {
 
   socket.on('error', async response => {
     console.error("===> Error connection: ", response);
-    process.exit();
   });
 };
 
 
 async function udpSend(socket, message, rawUrl) {
   const url = new URL(rawUrl);
-  await socket.send(message, 0, message.length, url.port || 8080, url.host);
+  await socket.send(message, Number(url.port), url.hostname);
 }
 
 function respType(resp) {
-  // ...
+  const action = resp.readUInt32BE(0);
+  if (action === 0) return 'connect';
+  if (action === 1) return 'announce';
 }
 
 function buildConnBuffer() {

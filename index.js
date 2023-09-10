@@ -6,7 +6,7 @@ import bencode from 'bencode';
 import { getPeers } from './src/tracker.js';
 
 
-const torrent = bencode.decode( readFileSync('torrents/puppy.torrent'), 'utf8' );
+const torrent = bencode.decode( readFileSync('torrents/big-buck-bunny.torrent'), 'utf8' );
 
 await getPeers(torrent, peers => {
     console.log('List of peers: ', peers);
