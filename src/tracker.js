@@ -19,7 +19,7 @@ export const getPeers = async (torrent, callback) => {
   urls.forEach(async element => {
     const url = element[0];
     if (url.startsWith('udp://')) {
-      await udpSend(socket, buildConnBuffer(), url);
+      udpSend(socket, buildConnBuffer(), url);
     } else {
       console.log('Skipping non udp URL: ', url);
     }
@@ -31,7 +31,7 @@ export const getPeers = async (torrent, callback) => {
       const connResp = parseConnResponse(response);
       // 3. send announce request
       const announceReq = buildAnnounceReq(connResp.connectionId, torrent);
-      await udpSend(socket, announceReq, announceUrl);
+      udpSend(socket, announceReq, announceUrl);
     } else if (respType(response) === 'announce') {
       // 4. parse announce response
       const announceResp = parseAnnounceResp(response);
@@ -47,9 +47,9 @@ export const getPeers = async (torrent, callback) => {
 };
 
 
-async function udpSend(socket, message, rawUrl) {
+function udpSend(socket, message, rawUrl) {
   const url = new URL(rawUrl);
-  await socket.send(message, Number(url.port), url.hostname);
+  socket.send(message, Number(url.port), url.hostname);
 }
 
 function respType(resp) {
