@@ -6,8 +6,8 @@
   "scripts": {
     "test": "node index.mjs",
     "start": "npm run build && node index.js",
-    "clean": "rm -rf build && mkdir build",
-    "build-babel": "babel -d ./build ./index.js -s",
+    "clean": "rm -rf build && mkdir dist",
+    "build-babel": "babel -d ./dist ./index.js -s",
     "build": "npm run clean && npm run build-babel"
   },
   "type": "module",
