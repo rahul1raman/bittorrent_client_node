@@ -1,8 +1,7 @@
 'use strict';
 
 import { Buffer } from 'buffer';
-import { infoHash } from './torrent-parser';
-import { genId } from './util';
+import { genId } from './utils.js';
 
 export function buildHandshake(torrent) {
   const buf = Buffer.alloc(68);
@@ -14,7 +13,7 @@ export function buildHandshake(torrent) {
   buf.writeUInt32BE(0, 20);
   buf.writeUInt32BE(0, 24);
   // info hash
-  infoHash(torrent).copy(buf, 28);
+  torrent.infoHash.copy(buf, 28);
   // peer id
   genId().copy(buf, 48);
   return buf;

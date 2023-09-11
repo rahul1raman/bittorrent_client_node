@@ -1,6 +1,9 @@
 'use strict';
 
 import {randomBytes} from 'crypto';
+import * as dgram from 'dgram';
+
+import { buildConnectionMessage } from './tracker.js';
 
 let id = null;
 

@@ -1,7 +1,11 @@
 'use strict';
 
-import * as torrentParser from './src/torrent-parser.js';
-import * as download from './src/download.js';
+import { download } from './src/download.js';
+import parseTorrent from 'parse-torrent';
+import fs from 'fs';
 
-const torrent = torrentParser.open(process.argv[2]);
-download(torrent);
+const parseFile = async () => {
+    return parseTorrent(fs.readFileSync(process.argv[2]));
+};
+const torrent = await parseFile();
+await download(torrent);
