@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node index.mjs",
-    "start": "npm run build-babel && node index.js",
+    "start": "npm run build-babel && node index.js torrents/big-buck-bunny.torrent",
     "clean": "rm -rf build && mkdir dist",
     "build-babel": "babel -d ./dist ./index.js -s",
     "build": "npm run clean && npm run build-babel"

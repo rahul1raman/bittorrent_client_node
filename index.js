@@ -1,13 +1,7 @@
 'use strict';
-import { readFileSync } from 'fs';
 
-import bencode from 'bencode';
+import * as torrentParser from './src/torrent-parser.js';
+import * as download from './src/download.js';
 
-import { getPeers } from './src/tracker.js';
-
-
-const torrent = bencode.decode( readFileSync('torrents/big-buck-bunny.torrent'), 'utf8' );
-
-await getPeers(torrent, peers => {
-    console.log('List of peers: ', peers);
-});
+const torrent = torrentParser.open(process.argv[2]);
+download(torrent);
