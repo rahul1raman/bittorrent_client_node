@@ -19,13 +19,15 @@
     "axios": "^1.5.0",
     "bignum": "^0.13.1",
     "crypto": "^1.0.1",
-    "parse-torrent": "^11.0.14"
+    "parse-torrent": "^11.0.14",
+    "ramda": "^0.29.0"
   },
   "devDependencies": {
     "@babel/node": "^7.22.15",
     "@babel/plugin-transform-runtime": "^7.22.15",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.22.15",
-    "@babel/runtime": "^7.22.15"
+    "@babel/runtime": "^7.22.15",
+    "@types/ramda": "^0.29.4"
   }
 }
